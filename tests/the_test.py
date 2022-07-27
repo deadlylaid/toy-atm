@@ -1,11 +1,11 @@
 import unittest
 
-import atm
+from bank_data import Database
 
 
 class TestATM(unittest.TestCase):
     def test_create_database_object(self):
-        database = atm.Database()
+        database = Database()
         data_dict = {
             '5389-2000-5651-9669': {
                 'card_number': '5389-2000-5651-9669', 'pin_number': '1234', 'name': '사람1', 'balance': '1000000'
@@ -18,7 +18,7 @@ class TestATM(unittest.TestCase):
         self.assertEqual(database.data_dict, data_dict)
 
     def test_database_select_account_by_card_number(self):
-        database = atm.Database()
+        database = Database()
         inserted_card = '5389-2000-5651-9669'
         account = database.select_account_by_card_number(inserted_card)
         self.assertEqual(
@@ -30,7 +30,7 @@ class TestATM(unittest.TestCase):
         self.assertRaises(ValueError, database.select_account_by_card_number, inserted_invalid_cared)
 
     def test_validate_pin_number(self):
-        database = atm.Database()
+        database = Database()
         inserted_card = '5389-2000-5651-9669'
         account = database.select_account_by_card_number(inserted_card)
 
@@ -43,7 +43,7 @@ class TestATM(unittest.TestCase):
         self.assertEqual(is_valid, False)
 
     def test_deposit(self):
-        database = atm.Database()
+        database = Database()
         inserted_card = '5389-2000-5651-9669'
         account = database.select_account_by_card_number(inserted_card)
 
@@ -51,7 +51,7 @@ class TestATM(unittest.TestCase):
         self.assertEqual(account.get_balance(), '1000010')
 
     def test_withdraw(self):
-        database = atm.Database()
+        database = Database()
         inserted_card = '5389-2000-5651-9669'
         account = database.select_account_by_card_number(inserted_card)
 
@@ -60,6 +60,11 @@ class TestATM(unittest.TestCase):
 
         account.withdraw('10')
         self.assertEqual(account.get_balance(), '999990')
+
+    def test_is_card_number_exist(self):
+        database = Database()
+        card_number = '1111-1111-1111-1111'
+        self.assertEqual(database.is_card_number_exist(card_number), False)
 
 
 if __name__ == '__main__':
