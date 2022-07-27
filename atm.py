@@ -28,7 +28,10 @@ def insert_card(card_number):
         if task == '1' or task == '2':
             task_dict = {'1': account.deposit, '2': account.withdraw}
             amount = input('ENTER THE AMOUNT\n')
-            task_dict[task](amount)
+            try:
+                task_dict[task](amount)
+            except ValueError as e:
+                click.echo(click.style(e, bg='red', fg='white'))
             database.commit(account)
         else:
             click.echo('GOOD BYE')
@@ -38,5 +41,4 @@ def insert_card(card_number):
 cli.add_command(insert_card)
 
 if __name__ == '__main__':
-    database = Database()
     cli()

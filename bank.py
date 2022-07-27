@@ -20,7 +20,10 @@ class BankFront:
         while True:
             try:
                 card_number = '-'.join([str(x) for x in random.sample(range(1000, 9999), 4)])
-                database.create_account(card_number, pin_number, name)
+                account = database.create_account(card_number, pin_number, name)
+                click.echo('\n')
+                click.echo(f'card_number: {account.data["card_number"]}')
+                click.echo('\n')
                 break
             except ValueError:
                 pass
