@@ -32,9 +32,10 @@ class Account:
 
 
 class Database:
-    def __init__(self):
+    def __init__(self, database_path=None):
         self.fields = ['card_number', 'pin_number', 'name', 'balance']
-        f = open('database.csv')
+        path = database_path or 'database.csv'
+        f = open(path)
         self.data_dict = dict()
         for data in list(csv.DictReader(f)):
             self.data_dict[data['card_number']] = data
